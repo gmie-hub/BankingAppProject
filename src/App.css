@@ -1,0 +1,43 @@
+.sec{
+  background-color: white;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (max-width: 768px){
+  .welcome-pg{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .p-block{
+    padding-block: 30px;
+  }
+  .sec-welcome{
+    padding-block: 30px;
+    background: linear-gradient(114.04deg, #6985AC 11.79%, rgba(146, 100, 168, 0.74) 66.28%,
+     rgba(134, 69, 193, 0.726158) 99.99%, rgba(112, 11, 239, 0.7) 100%);
+  }
+  .card-bg{
+    border: none !important;
+    background-color: transparent !important;
+  }
+}
+.text-font{
+  font-size: 38px;
+}
+.btn1-bg{
+  background-color: #700bef !important;
+  color: white !important;
+  border-color: #700bef !important;
+}
+.btn2-bg{
+  background-color: #d4b6fa !important;
+  color: #700bef !important;
+  border-color: #d4b6fa !important;
+}
+.input {
+  background: rgba(112, 11, 239, 0.3) !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+}
