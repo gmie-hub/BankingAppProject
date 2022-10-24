@@ -1,49 +1,95 @@
-import { useReducer } from "react";
-import { useEffect } from "react";
-import { createContext } from "react";
-import { userReducer } from "../reducers/userReducer";
+import { useReducer, createContext, useEffect } from "react";
+import { initialState, userReducer } from "../reducers/userReducer";
+import { client } from "../services/client";
 
 export const UserContext = createContext({});
 
 const UserContextProvider = ({children}) => {
-    const [users, dispatch] = useReducer(userReducer, [], () => {
-        const allUsers = localStorage.getItem('allUser');
-        return allUsers ? JSON.parse(allUsers) : [];
-    });
+    const [users, usersDispatch] = useReducer(userReducer, initialState);
+    console.log(users);
     useEffect(() => {
-        localStorage.setItem('allUser', JSON.stringify(users))
-    }, [users]);
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    // const currentData = JSON.parse(localStorage.getItem('current_session'))
-    // if(currentData === null){
-    //     localStorage.setItem('current_session', JSON.stringify([]))
-    // }
-    
-    const [currentUsers, currentUsersDispatch] = useReducer(userReducer, [], () => {
-        const currentUser = localStorage.getItem('currentUser');
-        return currentUser ? JSON.parse(currentUser) : [];
+        if(currentUser){
+            const checkUser = users.allUsers.filter((data) => {
+                if(data?.email === currentUser?.email){
+                    return data;
+                }
+                return currentUser
+            });
+            if(checkUser.length > 0){
+                usersDispatch({type: "LOGIN_USER"});
+                usersDispatch({type: 'SET_USER', user: checkUser[0]});
+            }
+        }
     })
-    const login = (emailData, passwordData) => {
-        var currentUser = users.filter(({ email, password }) => {
-        if (email === emailData && password === passwordData) {
-        return { email, password };
+
+    const login = (email, password) => {
+        const loginData = client.login({email, password});
+        if(loginData){
+            usersDispatch({type: 'LOGIN_USER'});
+            usersDispatch({type: 'SET_USER', user: loginData})
         }
-        });
-        if(currentUser.length !== 0){
-            localStorage.setItem('currentUser', JSON.stringify(currentUser))
-        }
-        else{
-            alert('incorrect username or password');
-        }
-        currentUsersDispatch({type: 'LOGIN_USER'})
-        console.log(currentUsers)
+        return loginData;
     };
+
+    const register = (payload) => {
+        const regData = client.register(payload);
+        return regData;
+    }
+
+    // function autoLogin() {
+    //     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    //     if(currentUser){
+    //         const check = users.allUsers.filter((data) => {
+    //             if(data.email === currentUser.email){
+    //                 return data;
+    //             }
+    //         });
+
+    //         if(check.length > 0){
+    //             return "/dashboard";
+    //         }
+    //     }
+    //     return "/welcome"
+    // }
+
+    const logout = () => {
+        usersDispatch({type: "LOGOUT"});
+        localStorage.removeItem('currentUser');
+        return true;
+    }
+
+    // const transactions = (payload) => {
+    //     const transactionData = client.transactions(payload)
+    //     return transactionData
+    // }
+
+    const handleDeposit = (deposited) => {
+        usersDispatch({type: 'INCREMENT', deposited: deposited});
+    }
+
+    const handleWithdraw = (withdraw) => {
+        usersDispatch({type: 'DECREMENT', withdraw: withdraw});
+    }
+
     useEffect(() => {
-        // localStorage.setItem('currentUser', JSON.stringify(currentUsers))
-    })
+        localStorage.setItem("currentUser", JSON.stringify(users.currentUser)) 
+        
+        if(users){
+            let result = users?.allUsers?.findIndex(x => {
+                return x.email === users?.currentUser?.email;
+            })
+
+            users.allUsers[result].deposit = users.currentUser.deposit;
+            localStorage.setItem("allUser", JSON.stringify(users.allUsers));
+        }
+        return
+    },[users])
+    console.log(users.currentUser.deposit);
 
     return (
-        <UserContext.Provider value={{users, login, currentUsersDispatch, dispatch}}>
+        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
             {children}
         </UserContext.Provider>
     )

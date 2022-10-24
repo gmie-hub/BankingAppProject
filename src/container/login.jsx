@@ -1,9 +1,8 @@
 import { Col, Container, Row, Card } from "react-bootstrap";
-import React from "react";
+import React, { useContext } from "react";
 import IMAGES from "../assets/img/image";
 import Images from "../components/img";
 import Input from "../components/input";
-import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/button";
@@ -11,15 +10,17 @@ import Button from "../components/button";
 const Login = () => {
     const {login} = useContext(UserContext);
     const redirect = useNavigate();
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+
+    const [user, setUser] = React.useState({
+        email: "", password: ""
+    });
+
     const handleSubmit = (e) => {
-        const validUser = login(email, password)
+        e.preventDefault();
+        const validUser = login(user.email, user.password)
         if(validUser){
-            redirect('/register')
+            redirect('/dashboard')
         }
-        setEmail('');
-        setPassword('');
     }
 
     return(
@@ -40,14 +41,14 @@ const Login = () => {
                                         <Input 
                                             type={'email'} 
                                             placeholder={'email@example.com'}
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
+                                            value={user.email}
+                                            onChange={(email) => {setUser({...user, email})}}
                                         />
                                         <Input 
                                             type={'password'} 
                                             placeholder={'Enter password'}
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            value={user.password}
+                                            onChange={(password) => {setUser({...user, password})}}
                                         />
                                     </form>
                                     <Button

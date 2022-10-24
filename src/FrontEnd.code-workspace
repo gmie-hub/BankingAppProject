@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "FrontEnd",
+			"path": "../.."
+		},
+		{
+			"name": "bootstrap-5.0.2-dist",
+			"path": "../../../../Downloads/bootstrap-5.0.2-dist/bootstrap-5.0.2-dist"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "FrontEnd"
+	}
+}

@@ -21,13 +21,13 @@ const Input = ({label, type, value, inputClass, labelId, inputId, placeholder, m
                 <input className={`${inputClass} form-control fs-4 input`}
                     id={inputId} placeholder={placeholder} value={value}
                     type={type} maxLength={maxlength}
-                    onChange={onChange}
+                    onChange={(e) => onChange(e.target.value)}
                 />
             )}
             {type === "select" && (
                 <Form.Group>
                     <Form.Select
-                        id={inputId} className="form-select input" onChange={onChange}
+                        id={inputId} className="form-select input" onChange={(e) => onChange(e.target.value)}
                         value={value}
                     >
                         {

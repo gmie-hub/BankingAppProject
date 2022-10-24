@@ -18,6 +18,7 @@ const Welcome = () => {
             <Container className="sec-welcome" as={'section'} fluid>
                 <Row className="welcome-pg">
                     <Col className="col-lg-7 col-md-6 col-12">
+                        
                         <h1 className="text-center fw-bold mb-5 text-font">Welcome</h1>
                         <Images src={IMAGES.welcome_img}/>
                     </Col>

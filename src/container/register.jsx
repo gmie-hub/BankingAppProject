@@ -1,6 +1,6 @@
-import React from "react"
-import { useContext } from "react"
+import React, { useContext }  from "react"
 import {Container, Row, Col, Card} from "react-bootstrap"
+import {useNavigate} from "react-router-dom"
 import IMAGES from "../assets/img/image"
 import Button from "../components/button"
 import Images from "../components/img"
@@ -8,29 +8,27 @@ import Input from "../components/input"
 import { UserContext } from "../context/userContext"
 
 const Register = () => {
-    const {dispatch} = useContext(UserContext)
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const [gender, setGender] = React.useState('Female');
-    const [dob, setDOB] = React.useState('');
-    const [deposit, setDeposit] = React.useState('');
+    const {register} = useContext(UserContext)
+    const redirect = useNavigate();
+   
+    const [userDetails, setUserDetails] = React.useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phone: "",
+        gender: "",
+        dob: "",
+        deposit: "",
+    })
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch({type: 'ADD_USER', user: {
-                firstName, lastName, email, password, phone, gender, dob, deposit
-            }});
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPassword('');
-        setPhone('');
-        setGender('');
-        setDOB('');
-        setDeposit('');
-        
+        const regData = register(userDetails)
+        if(regData){
+            redirect("/login");
+        }
     }
 
     return(
@@ -47,55 +45,55 @@ const Register = () => {
                         <div>
                             <Card className="card-bg mt-5">
                                 <Card.Body>
-                                    <form>
+                                    <form method="POST">
                                         <Input type={'text'} 
                                             placeholder={'Enter your first name'}
-                                            value={firstName}
-                                            onChange={(e) => setFirstName(e.target.value)}
+                                            value={userDetails.firstName}
+                                            onChange={(firstName) => {setUserDetails({...userDetails, firstName})}}
                                         />
                                         <Input type={'text'} 
                                             placeholder={'Enter your last name'}
-                                            value={lastName}
-                                            onChange={(e) => setLastName(e.target.value)}
+                                            value={userDetails.lastName}
+                                            onChange={(lastName) => {setUserDetails({...userDetails, lastName})}}
                                         />
                                         <Input type={'email'} 
                                             placeholder={'email@example.com'}
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
+                                            value={userDetails.email}
+                                            onChange={(email) => {setUserDetails({...userDetails, email})}}
                                         />
                                         <Input 
                                             type={'password'} 
                                             placeholder={'Enter password'}
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            value={userDetails.password}
+                                            onChange={(password) => {setUserDetails({...userDetails, password})}}
                                         />
                                         <Input 
                                             type={'password'} 
                                             placeholder={'Confirm password'}
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            value={userDetails.confirmPassword}
+                                            onChange={(confirmPassword) => {setUserDetails({...userDetails, confirmPassword})}}
                                         />
                                         <Input 
                                             type={'tel'} 
                                             placeholder={'Enter PhoneNumber'}
-                                            value={phone}
-                                            onChange={(e) => setPhone(e.target.value)}
+                                            value={userDetails.phone}
+                                            onChange={(phone) => {setUserDetails({...userDetails, phone})}}
                                         />
                                         <Input type={'select'}
-                                            value={gender}
-                                            onChange={(e) => setGender(e.target.value)}
+                                            value={userDetails.gender}
+                                            onChange={(gender) => {setUserDetails({...userDetails, gender})}}
                                         />
                                         <Input 
                                             type={'date'}
-                                            value={dob}
-                                            onChange={(e) => setDOB(e.target.value)}
+                                            value={userDetails.dob}
+                                            onChange={(dob) => {setUserDetails({...userDetails, dob})}}
                                         />
                                     
                                         <Input
                                             type={'number'} 
                                             placeholder={'Initial Deposit'}
-                                            value={deposit}
-                                            onChange={(e) => setDeposit(e.target.value)}
+                                            value={userDetails.deposit}
+                                            onChange={(deposit) => {setUserDetails({...userDetails, deposit})}}
                                         />
                                         
                                     </form>
