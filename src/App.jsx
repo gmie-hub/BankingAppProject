@@ -3,10 +3,10 @@ import {BrowserRouter, Routes, Route, Navigate,} from "react-router-dom";
 import './App.css';
 import Login from "./container/login";
 import Register from "./container/register";
-import Welcome from "./container/index";
 import Dashboard from "./container/dashboard";
 import { UserContext } from "./context/userContext";
 import { routes } from "./routes";
+import Index from "./container/index";
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to={autoLogin}/>}/>
-          <Route path={routes.welcome} element={<Welcome />}/>
+          <Route path={routes.index} element={<Index />}/>
           <Route path={routes.register} element={<Register/>} />
           <Route path={routes.login} element={<Login/>} />
           {users.authentication && (

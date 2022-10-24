@@ -5,7 +5,7 @@ import IMAGES from "../assets/img/image"
 import Button from "../components/button"
 import Images from "../components/img"
 
-const Welcome = () => {
+const Index = () => { 
     const redirect = useNavigate();
     const handleRegister = () => {
         redirect('/register');
@@ -34,4 +34,4 @@ const Welcome = () => {
     )
 }
 
-export default Welcome
+export default Index
