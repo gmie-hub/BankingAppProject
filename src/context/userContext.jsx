@@ -38,21 +38,21 @@ const UserContextProvider = ({children}) => {
         return regData;
     }
 
-    // function autoLogin() {
-    //     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    //     if(currentUser){
-    //         const check = users.allUsers.filter((data) => {
-    //             if(data.email === currentUser.email){
-    //                 return data;
-    //             }
-    //         });
+    function autoLogin() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if(currentUser){
+            const check = users.allUsers.filter((data) => {
+                if(data.email === currentUser.email){
+                    return data;
+                }
+            });
 
-    //         if(check.length > 0){
-    //             return "/dashboard";
-    //         }
-    //     }
-    //     return "/welcome"
-    // }
+            if(check.length > 0){
+                return "/dashboard";
+            }
+        }
+        return "/"
+    }
 
     const logout = () => {
         usersDispatch({type: "LOGOUT"});
