@@ -8,6 +8,7 @@ const UserContextProvider = ({children}) => {
     const [users, usersDispatch] = useReducer(userReducer, initialState);
 
     useEffect(() => {
+        //other code
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         if(currentUser){
@@ -22,7 +23,8 @@ const UserContextProvider = ({children}) => {
                 usersDispatch({type: 'SET_USER', user: checkUser[0]});
             }
         }
-    })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     console.log(users.user)
     console.log(users.allUsers)
 
@@ -69,25 +71,23 @@ const UserContextProvider = ({children}) => {
     // }
 
     const handleDeposit = (deposited) => {
-        usersDispatch({type: 'INCREMENT', deposited: deposited});
+        usersDispatch({type: 'INCREMENT', deposited: deposited || 0});
 
     }
 
     const handleWithdraw = (withdraw) => {
-        usersDispatch({type: 'DECREMENT', withdraw: withdraw});
+        usersDispatch({type: 'DECREMENT', withdraw: withdraw || 0});
     }
 
-    // const updateStorage = () => {
-    //     localStorage.setItem("currentUser", JSON.stringify(users.user)) 
+    localStorage.setItem("currentUser", JSON.stringify(users.user)) 
 
-    //     let result = users?.allUsers?.findIndex(x => {
-    //     return x.email === users?.user?.email;
-    //     })
-    //     console.log(users.allUsers[result])
-    //     console.log(users.user.email)
-    //     users.allUsers[result].deposit = users.user.deposit;
-    //     localStorage.setItem("allUser", JSON.stringify(users.allUsers));
-    // }
+    let result = users?.allUsers?.findIndex(x => {
+    return x.email === users?.user?.email;
+    })
+    console.log(users.allUsers[result])
+    console.log(users.user.email)
+    users.allUsers[result].deposit = users.user.deposit;
+    localStorage.setItem("allUser", JSON.stringify(users.allUsers));
 
     return (
         <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>

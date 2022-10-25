@@ -4,7 +4,7 @@ const allUsers = localStorage.getItem('allUser');
 export const initialState = {
     authentication: false,
     allUsers: JSON.parse(allUsers) || [],
-    user: {},
+    user: JSON.parse(localStorage.getItem('currentUser')) || {},
     // currentUser: currentUser,
     deposited: '',
     withdraw: '', 
