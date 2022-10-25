@@ -6,4 +6,4 @@ export const routes = {
     index: '/'
 }
 
-export const authRoutes = [routes.login, routes.register, routes.welcome];
+export const authRoutes = [routes.login, routes.register, routes.index];
