@@ -77,20 +77,20 @@ const UserContextProvider = ({children}) => {
         usersDispatch({type: 'DECREMENT', withdraw: withdraw});
     }
 
-    const updateStorage = () => {
-        localStorage.setItem("currentUser", JSON.stringify(users.user)) 
+    // const updateStorage = () => {
+    //     localStorage.setItem("currentUser", JSON.stringify(users.user)) 
 
-        let result = users?.allUsers?.findIndex(x => {
-        return x.email === users?.user?.email;
-        })
-        console.log(users.allUsers[result])
-        console.log(users.user.email)
-        users.allUsers[result].deposit = users.user.deposit;
-        localStorage.setItem("allUser", JSON.stringify(users.allUsers));
-    }
+    //     let result = users?.allUsers?.findIndex(x => {
+    //     return x.email === users?.user?.email;
+    //     })
+    //     console.log(users.allUsers[result])
+    //     console.log(users.user.email)
+    //     users.allUsers[result].deposit = users.user.deposit;
+    //     localStorage.setItem("allUser", JSON.stringify(users.allUsers));
+    // }
 
     return (
-        <UserContext.Provider value={{register, login, logout, users, updateStorage, handleDeposit, handleWithdraw}}>
+        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
             {children}
         </UserContext.Provider>
     )
