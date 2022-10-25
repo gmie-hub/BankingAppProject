@@ -86,8 +86,10 @@ const UserContextProvider = ({children}) => {
     })
     console.log(users.allUsers[result])
     console.log(users.user.email)
-    users.allUsers[result].deposit = users.user.deposit;
-    localStorage.setItem("allUser", JSON.stringify(users.allUsers));
+    if(result !== undefined){
+        users.allUsers[result].deposit = users.user.deposit;
+        localStorage.setItem("allUser", JSON.stringify(users.allUsers));
+    }
 
     return (
         <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
