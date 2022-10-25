@@ -86,7 +86,6 @@ const UserContextProvider = ({children}) => {
         }
         return
     },[users])
-    console.log(users.currentUser.deposit);
 
     return (
         <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
