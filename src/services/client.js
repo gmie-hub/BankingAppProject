@@ -30,7 +30,7 @@ class Client{
             if(data.email === schema.email && data.password === schema.password){
                 return data
             }
-            return reg
+            return null;
         }); 
         if(checkUser.length > 0){
             alert(`user ${schema.email} exists`);
@@ -58,7 +58,7 @@ class Client{
             if(data.email === schema.email && data.password === schema.password){
                 return data;
             }
-            return loginUser;
+            return null;
         });
 
         if(userExist[0]?.email && userExist[0].password){

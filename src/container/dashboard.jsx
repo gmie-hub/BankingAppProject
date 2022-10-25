@@ -8,7 +8,7 @@ import Input from "../components/input";
 import { UserContext } from "../context/userContext";
 
 const Dashboard = () => {
-    const {logout, handleDeposit, handleWithdraw} = React.useContext(UserContext);
+    const {logout, handleDeposit, handleWithdraw, updateStorage} = React.useContext(UserContext);
     const redirect = useNavigate();
 
     const [show, setShow] = React.useState(false);
@@ -43,9 +43,6 @@ const Dashboard = () => {
         }
     });
     const getUser = JSON.parse(localStorage.getItem('currentUser'));
-   
-    console.log(transaction.withdrawDescription);
-    console.log(transaction.depositDescription);
     
     const DepositHandle = (e) => {
         e.preventDefault();
@@ -53,10 +50,8 @@ const Dashboard = () => {
         transaction.userTransaction.transactionType = 'Credit';
         transaction.userTransaction.description = transaction.depositDescription;
         transaction.userTransaction.transactionAmount = transaction.deposited;
-        // console.log(transaction.userTransaction.transactionType);
-        // console.log(transaction.userTransaction.description);
-        // console.log(transaction.userTransaction.transactionAmount);
-        
+
+        updateStorage();     
     }
 
     const withdrawHandle = (e) => {
@@ -65,18 +60,14 @@ const Dashboard = () => {
         transaction.userTransaction.transactionType = 'Debit';
         transaction.userTransaction.description = transaction.withdrawDescription;
         transaction.userTransaction.transactionAmount = transaction.withdraw;
-        console.log(transaction.userTransaction.transactionType);
-        console.log(transaction.userTransaction.description);
-        console.log(transaction.userTransaction.transactionAmount);
-        //getUser.transactionDetails.push(transaction.userTransaction)
+        
+        updateStorage();
     }
 
     React.useEffect(() => {
-        
-        console.log(getUser.transactionDetails);
+    
         if(getUser.transactionDetails){
-            const log = getUser.transactionDetails.push(transaction.userTransaction);
-            console.log(log);
+            getUser.transactionDetails.push(transaction.userTransaction);
             localStorage.setItem("currentUser", JSON.stringify(getUser));
         }
     })

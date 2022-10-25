@@ -6,7 +6,7 @@ export const UserContext = createContext({});
 
 const UserContextProvider = ({children}) => {
     const [users, usersDispatch] = useReducer(userReducer, initialState);
-    console.log(users);
+
     useEffect(() => {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -15,7 +15,7 @@ const UserContextProvider = ({children}) => {
                 if(data?.email === currentUser?.email){
                     return data;
                 }
-                return currentUser
+                return null;
             });
             if(checkUser.length > 0){
                 usersDispatch({type: "LOGIN_USER"});
@@ -23,6 +23,8 @@ const UserContextProvider = ({children}) => {
             }
         }
     })
+    console.log(users.user)
+    console.log(users.allUsers)
 
     const login = (email, password) => {
         const loginData = client.login({email, password});
@@ -68,25 +70,27 @@ const UserContextProvider = ({children}) => {
 
     const handleDeposit = (deposited) => {
         usersDispatch({type: 'INCREMENT', deposited: deposited});
+
     }
 
     const handleWithdraw = (withdraw) => {
         usersDispatch({type: 'DECREMENT', withdraw: withdraw});
     }
 
-        localStorage.setItem("currentUser", JSON.stringify(users.currentUser)) 
-        
-        if(users){
-            let result = users?.allUsers?.findIndex(x => {
-                return x.email === users?.currentUser?.email;
-            })
+    const updateStorage = () => {
+        localStorage.setItem("currentUser", JSON.stringify(users.user)) 
 
-            users.allUsers[result].deposit = users.currentUser.deposit;
-            localStorage.setItem("allUser", JSON.stringify(users.allUsers));
-        }
+        let result = users?.allUsers?.findIndex(x => {
+        return x.email === users?.user?.email;
+        })
+        console.log(users.allUsers[result])
+        console.log(users.user.email)
+        users.allUsers[result].deposit = users.user.deposit;
+        localStorage.setItem("allUser", JSON.stringify(users.allUsers));
+    }
 
     return (
-        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
+        <UserContext.Provider value={{register, login, logout, users, updateStorage, handleDeposit, handleWithdraw}}>
             {children}
         </UserContext.Provider>
     )

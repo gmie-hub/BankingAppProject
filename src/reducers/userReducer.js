@@ -1,14 +1,14 @@
 const allUsers = localStorage.getItem('allUser');
-const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+// const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 export const initialState = {
     authentication: false,
     allUsers: JSON.parse(allUsers) || [],
     user: {},
-    currentUser: currentUser,
+    // currentUser: currentUser,
     deposited: '',
     withdraw: '', 
-    deposit: currentUser?.deposit
+    // deposit: user?.deposit
 };
 export const userReducer = (state, action) => {
        
@@ -29,13 +29,13 @@ export const userReducer = (state, action) => {
 
         case 'INCREMENT':
             return{
-                ...state, currentUser:{ ...currentUser, deposit: parseFloat(state.currentUser.deposit) + parseFloat(action.deposited)}
+                ...state, user:{ ...state.user, deposit: parseFloat(state.user.deposit) + parseFloat(action.deposited)}
 
             }
          
         case 'DECREMENT':
             return {
-                ...state, currentUser: {...currentUser, deposit: parseFloat(state.currentUser.deposit) - parseFloat(action.withdraw)}
+                ...state, user: {...state.user, deposit: parseFloat(state.user.deposit) - parseFloat(action.withdraw)}
             }
 
             default:
