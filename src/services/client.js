@@ -52,7 +52,7 @@ class Client{
         ...payload,
     };
 
-    const loginUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+    const loginUser = JSON.parse(localStorage.getItem("allUser")) || [];
     if(loginUser){
         const userExist = loginUser.filter((data) => {
             if(data.email === schema.email && data.password === schema.password){

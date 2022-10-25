@@ -1,5 +1,5 @@
 const allUsers = localStorage.getItem('allUser');
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
 export const initialState = {
     authentication: false,
