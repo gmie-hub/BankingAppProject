@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Routes, Route, Navigate,} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
 import Login from "./container/login";
 import Register from "./container/register";
@@ -10,12 +10,12 @@ import Index from "./container/index";
 
 function App() {
 
-  const {users, autoLogin} = React.useContext(UserContext)
+  const {users} = React.useContext(UserContext)
   return (
     <React.Fragment>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to={autoLogin}/>}/>
+          {/* <Route path="/" element={<Navigate to={autoLogin}/>}/> */}
           <Route path={routes.index} element={<Index />}/>
           <Route path={routes.register} element={<Register/>} />
           <Route path={routes.login} element={<Login/>} />

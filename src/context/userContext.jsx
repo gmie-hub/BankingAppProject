@@ -38,22 +38,22 @@ const UserContextProvider = ({children}) => {
         return regData;
     }
 
-    function autoLogin() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if(currentUser){
-            const check = users.allUsers.filter((data) => {
-                if(data.email === currentUser.email){
-                    return data;
-                }
-                return currentUser
-            });
+    // function autoLogin() {
+    //     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    //     if(currentUser){
+    //         const check = users.allUsers.filter((data) => {
+    //             if(data.email === currentUser.email){
+    //                 return data;
+    //             }
+    //             return currentUser
+    //         });
 
-            if(check.length > 0){
-                return "/dashboard";
-            }
-        }
-        return "/"
-    }
+    //         if(check.length > 0){
+    //             return "/dashboard";
+    //         }
+    //     }
+    //     return "/"
+    // }
 
     const logout = () => {
         usersDispatch({type: "LOGOUT"});
@@ -89,7 +89,7 @@ const UserContextProvider = ({children}) => {
     },[users])
 
     return (
-        <UserContext.Provider value={{register, login, logout, users, autoLogin, handleDeposit, handleWithdraw}}>
+        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
             {children}
         </UserContext.Provider>
     )
