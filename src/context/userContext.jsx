@@ -86,7 +86,7 @@ const UserContextProvider = ({children}) => {
     })
     console.log(users.allUsers[result])
     console.log(users.user.email)
-    if(result != undefined){
+    if(!result){
         users.allUsers[result].deposit = users.user.deposit;
         localStorage.setItem("allUser", JSON.stringify(users.allUsers));
     }
