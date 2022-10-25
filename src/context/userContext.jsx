@@ -45,6 +45,7 @@ const UserContextProvider = ({children}) => {
                 if(data.email === currentUser.email){
                     return data;
                 }
+                return currentUser
             });
 
             if(check.length > 0){
@@ -88,7 +89,7 @@ const UserContextProvider = ({children}) => {
     },[users])
 
     return (
-        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
+        <UserContext.Provider value={{register, login, logout, users, autoLogin, handleDeposit, handleWithdraw}}>
             {children}
         </UserContext.Provider>
     )
