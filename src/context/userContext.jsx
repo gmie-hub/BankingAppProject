@@ -65,11 +65,6 @@ const UserContextProvider = ({children}) => {
         return true;
     }
 
-    // const transactions = (payload) => {
-    //     const transactionData = client.transactions(payload)
-    //     return transactionData
-    // }
-
     const handleDeposit = (deposited) => {
         usersDispatch({type: 'INCREMENT', deposited: deposited || 0});
 

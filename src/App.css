@@ -144,7 +144,11 @@
     width: 100%;
   }
 
-.order{
-  order: 3;
-}
+  .order{
+    order: 3;
+  }
+
+  .show{
+    display: none;
+  }
 }

@@ -1,14 +1,11 @@
 const allUsers = localStorage.getItem('allUser');
-// const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 export const initialState = {
     authentication: false,
     allUsers: JSON.parse(allUsers) || [],
     user: JSON.parse(localStorage.getItem('currentUser')) || {},
-    // currentUser: currentUser,
     deposited: '',
     withdraw: '', 
-    // deposit: user?.deposit
 };
 export const userReducer = (state, action) => {
        
