@@ -1,6 +1,7 @@
 import { useReducer, createContext, useEffect } from "react";
 import { initialState, userReducer } from "../reducers/userReducer";
 import { client } from "../services/client";
+import { currentDate, currentTime } from "../services/logic";
 
 export const UserContext = createContext({});
 
@@ -25,8 +26,6 @@ const UserContextProvider = ({children}) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(users.user)
-    console.log(users.allUsers)
 
     const login = (email, password) => {
         const loginData = client.login({email, password});
@@ -65,13 +64,24 @@ const UserContextProvider = ({children}) => {
         return true;
     }
 
+    //Transaction setter
     const handleDeposit = (deposited) => {
         usersDispatch({type: 'INCREMENT', deposited: deposited || 0});
-
     }
 
     const handleWithdraw = (withdraw) => {
         usersDispatch({type: 'DECREMENT', withdraw: withdraw || 0});
+    }
+
+    const transactions = (type, inputDescription, inputAmount) => {
+        let userTransaction = {
+            transactionType: type,
+            transactionDescription: inputDescription,
+            transactionAmount: inputAmount,
+            transactionDate: `${currentDate()} ${currentTime()}`
+        }
+       
+        users.user.transactionDetails.push(userTransaction)
     }
 
     localStorage.setItem("currentUser", JSON.stringify(users.user)) 
@@ -79,15 +89,14 @@ const UserContextProvider = ({children}) => {
     let result = users?.allUsers?.findIndex(x => {
     return x.email === users?.user?.email;
     })
-    console.log(users.allUsers[result])
-    console.log(users.user.email)
+
     if(!result){
         users.allUsers[result].deposit = users.user.deposit;
     }
     localStorage.setItem("allUser", JSON.stringify(users.allUsers));
 
     return (
-        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw}}>
+        <UserContext.Provider value={{register, login, logout, users, handleDeposit, handleWithdraw, transactions}}>
             {children}
         </UserContext.Provider>
     )

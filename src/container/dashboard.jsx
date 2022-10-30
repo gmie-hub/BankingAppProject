@@ -7,7 +7,7 @@ import Input from "../components/input";
 import { UserContext } from "../context/userContext";
 
 const Dashboard = () => {
-    const {logout, handleDeposit, handleWithdraw, users} = React.useContext(UserContext);
+    const {logout, handleDeposit, handleWithdraw, users, transactions} = React.useContext(UserContext);
     const redirect = useNavigate();
 
     const [show, setShow] = React.useState(false);
@@ -28,56 +28,39 @@ const Dashboard = () => {
     const handleCloseCanva1 = () => setCanva1(false);
     const handleShowCanva1 = () => setCanva1(true);
 
-    let date = new Date();
-
-    function currentDate(){
-        return date.toLocaleDateString();
-    }
-
-    function currentTime(){
-        return date.toLocaleTimeString();
-    }
-
     const [transaction, setTransaction] = React.useState({
         deposited: "",
         withdraw: "",
         depositDescription: "",
         withdrawDescription: "",
-        userTransaction: {
-            transactionType: "",
-            transactionDate: `${currentDate()} ${currentTime()}`,
-            description: "",
-            transactionAmount: ""
-        }
     });
-    // const getUser = JSON.parse(localStorage.getItem('currentUser'));
     
     const DepositHandle = (e) => {
         e.preventDefault();
         handleDeposit(transaction.deposited);
         handleClose();
-        transaction.userTransaction.transactionType = 'Credit';
-        transaction.userTransaction.description = transaction.depositDescription;
-        transaction.userTransaction.transactionAmount = transaction.deposited;
-   
+        transactions('Credit', transaction.depositDescription, transaction.deposited);
     }
 
     const withdrawHandle = (e) => {
         e.preventDefault();
         handleWithdraw(transaction.withdraw);
         handleClose();
-        transaction.userTransaction.transactionType = 'Debit';
-        transaction.userTransaction.description = transaction.withdrawDescription;
-        transaction.userTransaction.transactionAmount = transaction.withdraw;
-        
+        transactions('Debit', transaction.withdrawDescription, transaction.withdraw);
     }
-    
-   
-    users.user.transactionDetails.push(transaction.userTransaction);
-    console.log(users.user.transactionDetails);
-    console.log(users.deposited);
-        // localStorage.setItem("currentUser", JSON.stringify(getUser));
-    console.log(users.user);
+
+    // console.log(users.user);
+    // React.useEffect(() => {
+    //     handleFetch();
+    // }, [])
+
+    // async function handleFetch(){
+    //     const [data1] = await Promise.all([client.fetcher()]);
+    //     console.log(data1);
+    // }
+
+    // const cat = client.getFetcher();
+    // console.log(cat);
  
     return (
         <React.Fragment>
@@ -132,22 +115,23 @@ const Dashboard = () => {
                             <thead>
                                 <tr className="table-head">
                                     <th>Type</th>
-                                    <th>Date</th>
-                                    <th>Details</th>
+                                    <th>Description</th>
                                     <th>Amount</th>
-                                    <th>Balance</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                {users.user.transactionDetails?.map((data, index) => {
+                                    return(
+                                        <tr key={index}>
+                                            <td>{data.transactionType}</td>
+                                            <td>{data.transactionDescription}</td>
+                                            <td>{data.transactionAmount}</td>   
+                                            <td>{data.transactionDate}</td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
-
-                            <tr className="text-center">
-                                <td className="bg-danger">Debit</td>
-                            </tr>
-                            <tr className="text-center">
-                                <td className="bg-success">Credit</td>
-                            </tr>
                         </table>
                     </div>
                 </Col>
